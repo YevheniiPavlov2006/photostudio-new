@@ -4,198 +4,83 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Портфолио фотографа</title>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f7f7f7;
-      margin: 0;
-      padding: 0;
-    }
-    h1 {
-      text-align: center;
-      padding: 40px 0 10px;
-      color: #333;
-    }
-    #gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 15px;
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .folder, #gallery img {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .folder:hover, #gallery img:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-    .folder-icon {
-      font-size: 50px;
-      color: #ffb300;
-      display: block;
-    }
-    #back-button {
-      display: none;
-      margin: 10px auto;
-      padding: 10px 20px;
-      background: #333;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    #gallery img {
-      width: 100%;
-      height: 100%;
-      max-height: 400px;
-      object-fit: cover;
-      border-radius: 12px;
-      padding: 0;
-    }
-    .lightbox {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .lightbox img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Портфолио фотографа</h1>
-  <button id="back-button">⬅ Назад</button>
-  <div id="gallery"></div>
+  <div class="wrapper">
+    <section class="section">
 
-  <div class="lightbox" id="lightbox">
-    <img src="" alt="">
+      <header class="header section">
+        <div class="container">
+          <div class="header-logo">PhotoStudio</div>
+        </div>
+      </header>
+
+      <div class="main-screen section">
+        <div class="container">
+          <div class="main-content">
+            <div class="main-content-title">Photographer</div>
+            <div class="main-content-subtitle">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores excepturi enim aspernatur aut? Accusantium accusamus, saepe suscipit autem ea adipisci.</div>
+            <button class="main-button">Contact me</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-line">
+        <div class="container">
+          <a href="">
+            <div class="info-line-item">Services</div>
+          </a>
+          <a href="">
+            <div class="info-line-item">How do i work</div>
+          </a>
+          <a href="">
+            <div class="info-line-item">Contacts</div>
+          </a>
+        </div>
+      </div>
+
+
+      <div class="container works">
+
+        <h1>My works</h1>
+        <button id="back-button">⬅ Back</button>
+        <div id="gallery"></div>
+      
+        <div class="lightbox" id="lightbox">
+          <img src="" alt="">
+        </div>
+
+      </div>
+
+      <footer class="footer">
+        <div class="container">
+          <div class="footer-logo header-logo">PhotoStudio</div>
+          <div class="media-block">
+            <a href="">
+              <div class="media-block-item-bkg">
+                  <img class="media-img" src="img/Instagram-color.svg" alt="">
+              </div>
+            </a>
+            <a href="">
+              <div class="media-block-item-bkg">
+                  <img class="media-img" src="img/whatsapp-color.svg" alt="">
+              </div>
+            </a>
+            <a href="">
+              <div class="media-block-item-bkg">
+                  <img class="media-img" src="img/telegram-color.svg" alt="">
+              </div>
+            </a>
+          </div>
+        </div>
+      </footer>
+    </section>
   </div>
 
-  <script>
-    const apiKey = "AIzaSyCIRqzCzmi3JW4GTOeCJ8_CP8JNVA2SFP4";
-    const rootFolderId = "1d23LyALKxJkTIzMMTJhMHa6coccWU7rH";
 
-    const gallery = document.getElementById("gallery");
-    const backButton = document.getElementById("back-button");
-    let folderHistory = [rootFolderId]; // история навигации
-
-    // === Загрузка содержимого папки (папки + фото) ===
-    async function loadFolderContents(folderId) {
-      gallery.innerHTML = "<p style='text-align:center;color:#777;'>Загрузка...</p>";
-
-      try {
-        // --- Формируем и кодируем запросы корректно ---
-        const folderQuery = encodeURIComponent(`'${folderId}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`);
-        const imageQuery  = encodeURIComponent(`'${folderId}' in parents and mimeType contains 'image/' and trashed=false`);
-
-        // Получаем подпапки
-        const folderUrl = `https://www.googleapis.com/drive/v3/files?key=${apiKey}&q=${folderQuery}&fields=files(id,name)&pageSize=200&supportsAllDrives=true&includeItemsFromAllDrives=true`;
-        const folderRes = await fetch(folderUrl);
-        const folderData = await folderRes.json();
-
-        // Получаем изображения
-        const imageUrl = `https://www.googleapis.com/drive/v3/files?key=${apiKey}&q=${imageQuery}&fields=files(id,name)&pageSize=500&supportsAllDrives=true&includeItemsFromAllDrives=true`;
-        const imageRes = await fetch(imageUrl);
-        const imageData = await imageRes.json();
-
-        // Проверка ошибок от API
-        if (folderData.error || imageData.error) {
-          gallery.innerHTML = `<p style='color:red;text-align:center;'>Ошибка: ${folderData.error?.message || imageData.error?.message}</p>`;
-          return;
-        }
-
-        gallery.innerHTML = "";
-
-        // --- Добавляем папки (сначала) ---
-        if (folderData.files?.length) {
-          folderData.files.forEach(folder => {
-            const div = document.createElement("div");
-            div.className = "folder";
-            div.innerHTML = `
-              <span class="folder-icon">📁</span>
-              <span>${folder.name}</span>
-            `;
-            div.addEventListener("click", () => {
-              folderHistory.push(folder.id);
-              loadFolderContents(folder.id);
-              backButton.style.display = "block";
-            });
-            gallery.appendChild(div);
-          });
-        }
-
-        // --- Затем добавляем изображения ---
-        if (imageData.files?.length) {
-          imageData.files.forEach(file => {
-            const img = document.createElement("img");
-            const imageUrl = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`;
-            img.src = imageUrl;
-            img.alt = file.name || "";
-            img.addEventListener("click", (e) => {
-              e.stopPropagation();
-              const lightbox = document.getElementById("lightbox");
-              lightbox.style.display = "flex";
-              lightbox.querySelector("img").src = imageUrl;
-            });
-            gallery.appendChild(img);
-          });
-        }
-
-        // --- Если ничего нет ---
-        if ((!folderData.files || folderData.files.length === 0) && (!imageData.files || imageData.files.length === 0)) {
-          gallery.innerHTML = "<p style='text-align:center;color:#777;'>Папка пуста</p>";
-        }
-
-        // Отображение / скрытие кнопки "Назад"
-        backButton.style.display = folderHistory.length > 1 ? "block" : "none";
-      } catch (err) {
-        gallery.innerHTML = `<p style='color:red;text-align:center;'>Ошибка загрузки: ${err.message}</p>`;
-      }
-    }
-
-    // === Кнопка Назад ===
-    backButton.addEventListener("click", () => {
-      if (folderHistory.length > 1) {
-        folderHistory.pop(); // удаляем текущую папку
-        const prevFolderId = folderHistory[folderHistory.length - 1];
-        loadFolderContents(prevFolderId);
-        backButton.style.display = prevFolderId === rootFolderId ? "none" : "block";
-      }
-    });
-
-    // === Закрытие лайтбокса (клик вне изображения) ===
-    document.getElementById("lightbox").addEventListener("click", (e) => {
-      // если клик пришёл по изображению — игнорируем (позволяет нажать на само изображение без закрытия)
-      if (e.target.tagName.toLowerCase() === 'img') return;
-      document.getElementById("lightbox").style.display = "none";
-    });
-
-    // === Первая загрузка ===
-    loadFolderContents(rootFolderId);
-
-    // === Автообновление каждые 30 секунд (только на уровне корня) ===
-    setInterval(() => {
-      if (folderHistory.length === 1) {
-        loadFolderContents(rootFolderId);
-      }
-    }, 30000);
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
 

@@ -1,0 +1,225 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:regular,500);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --black-main: #262424;
+  --white-main: #ffffff;
+  --gray-light: #b3b3b3;
+  --white-800: #eeeeee;
+  --golden-acsent: #C6A664;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+
+  background: var(--white-800);
+}
+
+.wrapper {
+  width: 100%;
+  min-height: 100%;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
+button {
+  cursor: pointer;
+}
+
+.container {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 15px 15px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+#gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  padding: 20px 0;
+  margin: 0 auto;
+}
+.folder, #gallery img {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.folder:hover, #gallery img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.folder-icon {
+  font-size: 50px;
+  color: var(--golden-acsent);
+  display: block;
+}
+#back-button {
+  display: none;
+  margin: 10px 0;
+  padding: 10px 20px;
+  background: var(--black-main);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+#gallery img {
+  width: 100%;
+  height: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+  padding: 0;
+}
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+}
+
+
+
+/*------------------------------------------------------main-part---------------------------------------------------*/
+.header {
+  width: 100%;
+  background-color: rgba(255,255,255,0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+.header-logo {
+  color: var(--white-main);
+  font-size: 22px;
+  font-weight: 500;
+}
+.main-screen {
+  background: url('img/photo_5228900307109539338_y.jpg') center no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  width: 100%;
+}
+.main-screen .container {
+  position: relative;
+  min-height: 100vh;
+}
+.main-content {
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  color: var(--white-main);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 20px;
+}
+.main-content-title {
+  font-size: 45px;
+}
+.main-content-subtitle {
+  font-size: 20px;
+  max-width: 600px;
+}
+.main-button {
+  padding: 15px 40px;
+  border: 1px solid var(--golden-acsent);
+  color: var(--golden-acsent);
+  background-color: transparent;
+  font-size: 24px;
+  font-weight: 300;
+}
+
+
+.footer {
+  background-color: var(--black-main);
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+.footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--white-main);
+}
+.media-block {
+  display: flex;
+  gap: 15px;
+}
+.media-block-item-bkg {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  background-color: var(--white-main);
+}
+.media-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  max-width: 30px;
+  aspect-ratio: 1;
+  z-index: 10;
+}
+.media-block a {
+  position: relative;
+}
+
+.info-line .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+}
+.info-line {
+  margin-top: 40px;
+  border-top: 1px solid var(--black-main);
+  border-bottom: 1px solid var(--black-main);
+}
+.info-line-item {
+  font-size: 16px;
+  color: var(--black-main);
+  font-weight: 500;
+  transition: 0.3s;
+}
+.info-line-item:hover {
+  font-size: 16px;
+  color: var(--golden-acsent);
+  font-weight: 500;
+}
+
+.works {
+  padding: 80px 0;
+}

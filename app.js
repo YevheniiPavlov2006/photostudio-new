@@ -38,7 +38,6 @@ async function loadFolderContents(folderId) {
         const div = document.createElement("div");
         div.className = "folder";
         div.innerHTML = `
-          <span class="folder-icon">📁</span>
           <span>${folder.name}</span>
         `;
         div.addEventListener("click", () => {

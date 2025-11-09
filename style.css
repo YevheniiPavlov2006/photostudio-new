@@ -12,7 +12,7 @@
   --white-main: #ffffff;
   --gray-light: #b3b3b3;
   --white-800: #eeeeee;
-  --golden-acsent: #C6A664;
+  --golden-acsent: #E3C98B;
 }
 
 html,
@@ -86,7 +86,7 @@ h1 {
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  background-image: url(img/photo-demo.jpg);
+  background-image: url(img/main-photo.jpg);
   height: 180px;
 }
 
@@ -218,7 +218,7 @@ h1 {
   font-weight: 500;
 }
 .main-screen {
-  background: url('img/photo-demo.jpg') center no-repeat;
+  background: url('img/main-photo.jpg') bottom no-repeat;
   background-size: cover;
   min-height: 100vh;
   width: 100%;
@@ -233,7 +233,7 @@ h1 {
   left: 0;
   width: 100%;
   min-height: 100vh;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.3);
 }
 .main-content {
   position: absolute;
@@ -258,14 +258,14 @@ h1 {
   font-size: 22px;
   font-weight: 100;
   border-radius: 5px;
-  background-color: var(--golden-acsent);
+  background: linear-gradient(90deg, #C6A664, #E3C98B, #f3d996);
+
   color: var(--white-main);
   
   transition: 0.6s;
 }
 .main-button:hover {
-  color: var(--golden-acsent);
-  background-color: var(--white-800);
+  background: linear-gradient(90deg, #C6A664, #E3C98B, #f3d996);
 }
 
 
@@ -288,14 +288,15 @@ h1 {
   flex-direction: column;
   align-items: start;
 }
-.phone-number {
+.footer-text {
   color: var(--white-main);
   font-size: 18px;
+  margin-bottom: 5px;
 }
 .media-block {
   display: flex;
   gap: 12px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 .media-block-item-bkg {
   position: relative;

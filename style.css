@@ -51,8 +51,6 @@ button {
 
 /* === Общий стиль === */
 #works {
-  min-height: 100vh;
-  font-family: "Poppins", sans-serif;
 }
 
 h1 {
@@ -69,7 +67,8 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 30px;
-  padding: 60px 5%;
+  padding: 40px 0;
+  padding-bottom: 0;
   margin: 0 auto;
   transition: all 0.3s ease;
 }
@@ -291,7 +290,26 @@ h1 {
 .footer-text {
   color: var(--white-main);
   font-size: 18px;
+}
+.phone-number {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 5px;
+}
+.location {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.phone-number img {
+  width: 20px;
+}
+.location img {
+  width: 20px;
 }
 .media-block {
   display: flex;
@@ -343,5 +361,4 @@ h1 {
 }
 
 .works {
-  padding: 80px 0;
 }

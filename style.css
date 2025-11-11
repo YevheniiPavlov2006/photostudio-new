@@ -21,7 +21,7 @@
   --white-main: #ffffff;
   --gray-light: #b3b3b3;
   --white-800: #eeeeee;
-  --golden-acsent: #E3C98B;
+  --golden-acsent: #c99c6f;
 }
 
 html,
@@ -63,7 +63,7 @@ button {
 }
 
 h1 {
-  padding-top: 80px;
+  padding-top: 100px;
   text-align: center;
   color: #222;
   font-size: 40px;
@@ -230,7 +230,7 @@ h1 {
   min-height: 100vh;
   width: 100%;
 }
-.main-screen .container {
+.main-block-container {
   position: relative;
   min-height: 100vh;
 }
@@ -265,14 +265,15 @@ h1 {
   font-size: 22px;
   font-weight: 100;
   border-radius: 5px;
-  background: linear-gradient(90deg, #C6A664, #E3C98B, #f3d996);
+  background: linear-gradient(90deg, #c99c6f, #e7903a, #c99c6f);
 
   color: var(--white-main);
   
-  transition: 0.6s;
+  background-size: 200%;
+  transition: background-position 0.6s ease;
 }
 .main-button:hover {
-  background: linear-gradient(90deg, #C6A664, #E3C98B, #f3d996);
+  background-position: right;
 }
 
 
@@ -351,21 +352,36 @@ h1 {
   justify-content: space-around;
   align-items: center;
 
-  width: 100%;
+  width: 600px;
+  height: auto !important;
 }
 .info-line {
-  margin-top: 40px;
-  border-top: 1px solid var(--black-main);
-  border-bottom: 1px solid var(--black-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: -50px;
+  right: 80px;
+  background-color: var(--white-main);
+  border-radius: 15px;
+  height: 130px;
 }
 .info-line-item {
   font-size: 16px;
   color: var(--black-main);
-  font-weight: 500;
+  font-weight: 600;
   transition: 0.3s;
 }
 .info-line-item:hover {
   font-size: 16px;
   color: var(--golden-acsent);
-  font-weight: 500;
+}
+.info-line img {
+  width: 65px;
+  aspect-ratio: 1;
+}
+.info-line a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

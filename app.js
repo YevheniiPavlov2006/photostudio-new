@@ -104,3 +104,30 @@ setInterval(() => {
     loadFolderContents(rootFolderId);
   }
 }, 30000);
+
+
+
+
+/*---------------------------burger-button-----------------------------*/
+
+const burgerButton = document.getElementById('burger-button')
+const sidebar = document.getElementById('sidebar')
+const headerItems = document.querySelectorAll('.header-menu-item')
+
+const burgerButtonActiveClass = 'active'
+const sidebarActiveClass = 'opened'
+const bodyFixedClass = 'body--fixed'
+
+burgerButton.addEventListener('click', function(){
+  burgerButton.classList.toggle(burgerButtonActiveClass)
+  sidebar.classList.toggle(sidebarActiveClass)
+  document.body.classList.toggle(bodyFixedClass)
+})
+
+headerItems.forEach(item => {
+  item.addEventListener('click', () => {
+    burgerButton.classList.remove(burgerButtonActiveClass)
+    sidebar.classList.remove(sidebarActiveClass)
+    document.body.classList.remove(bodyFixedClass)
+  })
+})

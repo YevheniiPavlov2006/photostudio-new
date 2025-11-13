@@ -458,6 +458,7 @@ h1 {
   bottom: -50px;
   right: 80px;
   background-color: var(--white-main);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
   border-radius: 15px;
   height: 130px;
 }
@@ -500,6 +501,8 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  opacity: 0.6;
 
   transition: transform 0.8s ease;
 }
@@ -562,17 +565,46 @@ h1 {
   transform-origin: calc(var(--size) / 2) 50%;
 }
 .about-photo-line:first-child {
-  transform: translateY(-50%) rotateZ(-30deg) translateX(0px);
+  transform: translateY(-50%) rotateZ(-20deg) translateX(30px);
 }
 .about-photo-line:nth-child(2) {
-  transform: translateY(-50%) rotateZ(0deg) translateX(-0px);
+  transform: translateY(-50%) rotateZ(20deg) translateX(-30px);
   justify-content: flex-start;
 }
 .about-photo-line:last-child {
+  transform: translateY(-50%) rotateZ(40deg) translateX(30px);
+}
+.about-photo-line:first-child .about-photo {
+  transform-origin: center;
+  transform: rotateZ(30deg);
+}
+.about-photo-line:last-child .about-photo {
+  transform-origin: center;
+  transform: rotateZ(-30deg);
+}
+
+.about-photo-line.animated:first-child {
+  transform: translateY(-50%) rotateZ(-30deg) translateX(0px);
+}
+.about-photo-line.animated:nth-child(2) {
+  transform: translateY(-50%) rotateZ(0deg) translateX(-0px);
+}
+.about-photo-line.animated:last-child {
   transform: translateY(-50%) rotateZ(30deg) translateX(0px);
 }
 
+/* Обратная компенсация вращения фото */
+.about-photo-line.animated:first-child .about-photo {
+  transform: rotateZ(30deg);
+}
+.about-photo-line.animated:last-child .about-photo {
+  transform: rotateZ(-30deg);
+}
 
+.about-info.animated {
+  transform: translateX(0);
+  opacity: 1;
+}
 
 @media(max-width:1300px){
   .about-photos-block {

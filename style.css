@@ -1,14 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Dancing+Script:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pacifico&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik+Vinyl&family=Rubik:ital,wght@0,300..900;1,300..900&family=Triodion&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
 
-@font-face {
-  font-family: 'Kulag';
-  src: url('..fonts/KULAG-Outline.otf') format('opentype'),
-       url('..fonts/KULAG-Regular.otf') format('opentype');
-  font-style: normal;
-}
-
-
-
 * {
   margin: 0;
   padding: 0;
@@ -59,11 +50,12 @@ button {
 }
 
 /* === Общий стиль === */
-#works {
+.works {
+  padding-top: 100px;
 }
 
 h1 {
-  padding-top: 100px;
+  padding-top: 50px;
   text-align: center;
   color: #222;
   font-size: 40px;
@@ -320,7 +312,7 @@ h1 {
   font-size: 22px;
 }
 .main-screen {
-  background: url('img/main-photo.jpg') bottom no-repeat;
+  background: url('img/main-photo-1.jpg') top no-repeat;
   background-size: cover;
   min-height: 100vh;
   width: 100%;
@@ -352,7 +344,7 @@ h1 {
   font-weight: 500;
 }
 .main-content-subtitle {
-  font-size: 20px;
+  font-size: 22px;
   max-width: 600px;
 }
 .main-button {
@@ -360,7 +352,8 @@ h1 {
   font-size: 22px;
   font-weight: 100;
   border-radius: 5px;
-  background: linear-gradient(90deg, #c99c6f, #e7903a, #c99c6f);
+  background: linear-gradient(90deg, #b76c22, #e78a2e, #c99c6f);
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.9);
 
   color: var(--white-main);
   
@@ -368,7 +361,7 @@ h1 {
   transition: background-position 0.6s ease;
 }
 .main-button:hover {
-  background-position: right;
+  box-shadow: none;
 }
 
 
@@ -376,6 +369,7 @@ h1 {
   background-color: var(--black-main);
   padding-top: 50px;
   padding-bottom: 20px;
+  margin-top: 80px;
 }
 .footer .container {
   display: flex;
@@ -444,10 +438,12 @@ h1 {
 
 .info-line .container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 15px 50px;
   align-items: center;
+  gap: 50px;
 
-  width: 600px;
+  max-width: 600px;
   height: auto !important;
 }
 .info-line {
@@ -456,21 +452,21 @@ h1 {
   align-items: center;
   position: absolute;
   bottom: -50px;
-  right: 80px;
+  right: 15px;
   background-color: var(--white-main);
   box-shadow: 0 3px 10px rgba(0,0,0,0.08);
   border-radius: 15px;
-  height: 130px;
 }
 .info-line-item {
   font-size: 16px;
   color: var(--black-main);
-  font-weight: 600;
   transition: 0.3s;
 }
-.info-line-item:hover {
-  font-size: 16px;
-  color: var(--golden-acsent);
+.info-line .container a:hover {
+  .info-line-item {
+    font-size: 16px;
+    color: var(--golden-acsent);
+  }
 }
 .info-line img {
   width: 65px;
@@ -486,8 +482,10 @@ h1 {
 
 
 .section-about {
-  padding-top: 120px;
-  padding-bottom: 120px;
+  padding-top: 100px;
+}
+.section-conditions {
+  padding-top: 100px;
 }
 .about-content {
   display: flex;
@@ -685,5 +683,13 @@ h1 {
   .about-content {
     margin-top: 0;
     padding-top: 20px;
+  }
+}
+
+
+@media (max-width:440px){
+  .footer .container {
+    flex-direction: column;
+    gap: 30px;
   }
 }

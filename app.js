@@ -41,9 +41,7 @@ async function loadFolderContents(folderId) {
           <span>${folder.name}</span>
         `;
         div.addEventListener("click", () => {
-          folderHistory.push(folder.id);
-          loadFolderContents(folder.id);
-          backButton.style.display = "block";
+          window.location.href = `folder.html?folder=${folder.id}`;
         });
         gallery.appendChild(div);
       });

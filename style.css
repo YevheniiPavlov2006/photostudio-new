@@ -68,7 +68,6 @@ button {
 }
 
 h1 {
-  padding-top: 50px;
   color: #222;
   font-size: 40px;
   font-weight: 600;
@@ -80,12 +79,13 @@ h1 {
 #gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 30px;
+  gap: 15px;
   padding: 40px 0;
   padding-bottom: 0;
   margin: 0 auto;
   transition: all 0.3s ease;
 }
+
 
 /* === Карточка папки === */
 .folder {
@@ -191,6 +191,7 @@ h1 {
 .lightbox img:hover {
   transform: scale(1.02);
 }
+
 
 
 /*--------------------------------burger-button---------------------------------*/
@@ -474,6 +475,25 @@ h1 {
   position: relative;
 }
 
+@media (max-width:500px) {
+  .works {
+    padding-top: 60px;
+  }
+  h1{
+    padding-top: 0;
+  }
+  .footer .container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .footer {
+    padding-top: 20px;
+  }
+  .footer-logo {
+    font-size: 30px;
+  }
+}
+
 .info-line .container {
   display: flex;
   justify-content: space-between;
@@ -514,6 +534,11 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+
+.section-about {
+  padding-top: 80px;
 }
 
 .about-content {
@@ -618,12 +643,8 @@ h1 {
 
 /* ------------------------------- END ABOUT ------------------------------- */
 
-@media (max-width:440px){
-  .footer .container {
-    flex-direction: column;
-    gap: 30px;
-  }
-}
+
+
 
 
 @media (max-width:768px){
@@ -634,4 +655,9 @@ h1 {
   #gallery {
     gap: 20px;
   }
+}
+
+.gallery-title {
+  font-size: 50px;
+  font-weight: 700;
 }

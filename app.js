@@ -33,19 +33,41 @@ async function loadFolderContents(folderId) {
     gallery.innerHTML = "";
 
     // --- Добавляем папки (сначала) ---
+    // --- Добавляем папки (сначала) ---
     if (folderData.files?.length) {
-      folderData.files.forEach(folder => {
+
+      for (const folder of folderData.files) {
+
+        // Загружаем первую картинку в папке
+        const imageQuery = encodeURIComponent(`'${folder.id}' in parents and mimeType contains 'image/' and trashed=false`);
+        const imageUrl = `https://www.googleapis.com/drive/v3/files?key=${apiKey}&q=${imageQuery}&fields=files(id,name)&pageSize=1`;
+        
+        const imageRes = await fetch(imageUrl);
+        const imageData = await imageRes.json();
+
+        // Берём первую картинку (если есть)
+        let previewImage = "img/main-photo.jpg";
+        if (imageData.files && imageData.files.length > 0) {
+          previewImage = `https://drive.google.com/thumbnail?id=${imageData.files[0].id}&sz=w1000`;
+        }
+
+        // Создаём карточку папки
         const div = document.createElement("div");
         div.className = "folder";
+        div.style.backgroundImage = `url('${previewImage}')`;
+        
         div.innerHTML = `
           <span>${folder.name}</span>
         `;
+
         div.addEventListener("click", () => {
           window.location.href = `folder.html?folder=${folder.id}`;
         });
+
         gallery.appendChild(div);
-      });
+      }
     }
+
 
     // --- Затем добавляем изображения ---
     if (imageData.files?.length) {

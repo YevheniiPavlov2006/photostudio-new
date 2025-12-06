@@ -22,15 +22,17 @@ async function loadImages(folderId) {
       return;
     }
 
-    imageData.files.forEach(file => {
+    imageData.files.slice(1).forEach(file => {
       const img = document.createElement("img");
-      img.src = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`;
-      img.alt = file.name;
+      const imageUrl = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`;
+
+      img.src = imageUrl;
+      img.alt = file.name || "";
 
       img.onclick = () => {
         const lightbox = document.getElementById("lightbox");
         lightbox.style.display = "flex";
-        lightbox.querySelector("img").src = img.src;
+        lightbox.querySelector("img").src = imageUrl;
       };
 
       gallery.appendChild(img);

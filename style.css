@@ -308,7 +308,7 @@ h1 {
 }
 
 .main-screen {
-  background: url('img/main-photo-1.jpg') top no-repeat;
+  background: url('img/main-photo-new.jpg') top no-repeat;
   background-size: cover;
   min-height: 100vh;
   width: 100%;
@@ -401,7 +401,7 @@ h1 {
     max-width: calc(100% - 30px);
   }
   .main-screen {
-    background: url('img/img-about-3.JPG') center no-repeat;
+    background: url('img/main-photo-new-adp.jpg') center no-repeat;
     background-size: cover;
     min-height: 100vh;
     width: 100%;

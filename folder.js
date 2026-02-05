@@ -1,53 +1,79 @@
 const apiKey = "AIzaSyCIRqzCzmi3JW4GTOeCJ8_CP8JNVA2SFP4";
 
 const gallery = document.getElementById("gallery");
-const urlParams = new URLSearchParams(window.location.search);
-const folderId = urlParams.get("folder");
+const lightbox = document.getElementById("lightbox");
 
-// === Загружаем только изображения ===
-async function loadImages(folderId) {
-  const query = encodeURIComponent(`'${folderId}' in parents and mimeType contains 'image/' and trashed=false`);
+const params = new URLSearchParams(window.location.search);
+const folderId = params.get("folder");
+
+// ================= ЗАГРУЗКА ФОТО + ВИДЕО =================
+async function loadMedia(folderId) {
+  const query = encodeURIComponent(
+    `'${folderId}' in parents and (mimeType contains 'image/' or mimeType contains 'video/') and trashed=false`
+  );
 
   gallery.innerHTML = "<p style='text-align:center;color:#777;'>Загрузка...</p>";
 
   try {
-    const imageUrl = `https://www.googleapis.com/drive/v3/files?key=${apiKey}&q=${query}&fields=files(id,name)&pageSize=300`;
-    const imageRes = await fetch(imageUrl);
-    const imageData = await imageRes.json();
+    const url = `https://www.googleapis.com/drive/v3/files?key=${apiKey}&q=${query}&fields=files(id,name,mimeType)&pageSize=300`;
+    const res = await fetch(url);
+    const data = await res.json();
 
     gallery.innerHTML = "";
 
-    if (!imageData.files.length) {
-      gallery.innerHTML = "<p style='text-align:center;color:#777;'>Нет фото</p>";
+    if (!data.files?.length) {
+      gallery.innerHTML = "<p style='text-align:center;color:#777;'>Нет файлов</p>";
       return;
     }
 
-    imageData.files.slice(1).forEach(file => {
-      const img = document.createElement("img");
-      const imageUrl = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`;
+    data.files.forEach(file => {
 
-      img.src = imageUrl;
-      img.alt = file.name || "";
+      // ---- ФОТО ----
+      if (file.mimeType.startsWith("image/")) {
+        const img = document.createElement("img");
+        const src = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`;
 
-      img.onclick = () => {
-        const lightbox = document.getElementById("lightbox");
-        lightbox.style.display = "flex";
-        lightbox.querySelector("img").src = imageUrl;
-      };
+        img.src = src;
+        img.alt = file.name || "";
 
-      gallery.appendChild(img);
+        img.onclick = () => {
+          lightbox.innerHTML = `<img src="${src}">`;
+          lightbox.style.display = "flex";
+        };
+
+        gallery.appendChild(img);
+      }
+
+      // ---- ВИДЕО ----
+      if (file.mimeType.startsWith("video/")) {
+        const video = document.createElement("video");
+        video.src = `https://drive.google.com/uc?export=preview&id=${file.id}`;
+        video.controls = true;
+        video.muted = true;
+        video.playsInline = true;
+
+        video.onclick = () => {
+          lightbox.innerHTML = `
+            <video src="https://drive.google.com/uc?export=preview&id=${file.id}" controls autoplay></video>
+          `;
+          lightbox.style.display = "flex";
+        };
+
+        gallery.appendChild(video);
+      }
     });
 
   } catch (e) {
-    gallery.innerHTML = `<p style='color:red;'>Ошибка загрузки: ${e.message}</p>`;
+    gallery.innerHTML = `<p style="color:red;">Ошибка: ${e.message}</p>`;
   }
 }
 
-loadImages(folderId);
-
-// Закрытие лайтбокса
-document.getElementById("lightbox").addEventListener("click", (e) => {
-  if (e.target.tagName !== "IMG") {
-    e.currentTarget.style.display = "none";
+// ================= ЛАЙТБОКС =================
+lightbox.addEventListener("click", (e) => {
+  if (e.target.tagName !== "IMG" && e.target.tagName !== "VIDEO") {
+    lightbox.style.display = "none";
+    lightbox.innerHTML = "";
   }
 });
+
+loadMedia(folderId);

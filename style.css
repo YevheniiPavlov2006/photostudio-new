@@ -91,7 +91,7 @@ h1 {
 .folder {
   position: relative;
   background: white;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 50px 30px 40px;
   text-align: center;
   cursor: pointer;
@@ -113,18 +113,18 @@ h1 {
   font-size: 58px;
   display: inline-block;
   background: linear-gradient(135deg, #f9d423, #ff4e50);
-  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 15px;
 }
 
 .folder span:last-child {
   position: absolute;
-  top: 16px;
-  left: 18px;
+  top: 10px;
+  left: 10px;
   background: rgba(0, 0, 0, 0.8);
-  padding: 10px 20px;
-  border-radius: 12px;
+  padding: 10px;
+  text-align: start;
+  border-radius: 8px;
   font-size: 16px;
   font-weight: 500;
   color: #ffffff;
@@ -586,7 +586,7 @@ h1 {
   grid-column-end: 4;
 }
 .about-content-info-img img{
-  border-radius: 20px;
+  border-radius: 10px;
   max-width: 100%;
 }
 

@@ -5,19 +5,15 @@ const gallery = document.getElementById("gallery");
 const backButton = document.getElementById("back-button");
 const lightbox = document.getElementById("lightbox");
 
-let folderHistory = [rootFolderId];
-
-// ================= ЗАГРУЗКА ПАПКИ =================
+// ================= ЗАГРУЗКА КОРНЯ =================
 async function loadFolderContents(folderId) {
   gallery.innerHTML = "<p style='text-align:center;color:#777;'>Загрузка...</p>";
 
   try {
-    // --- папки ---
     const folderQuery = encodeURIComponent(
       `'${folderId}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`
     );
 
-    // --- фото + видео ---
     const mediaQuery = encodeURIComponent(
       `'${folderId}' in parents and (mimeType contains 'image/' or mimeType contains 'video/') and trashed=false`
     );
@@ -38,29 +34,13 @@ async function loadFolderContents(folderId) {
     // ================= ПАПКИ =================
     if (folderData.files?.length) {
       for (const folder of folderData.files) {
-
-        const previewQuery = encodeURIComponent(
-          `'${folder.id}' in parents and mimeType contains 'image/' and trashed=false`
-        );
-
-        const previewUrl = `https://www.googleapis.com/drive/v3/files?key=${apiKey}&q=${previewQuery}&fields=files(id)&pageSize=1`;
-        const previewRes = await fetch(previewUrl);
-        const previewData = await previewRes.json();
-
-        let previewImage = "img/main-photo.jpg";
-        if (previewData.files?.length) {
-          previewImage = `https://drive.google.com/thumbnail?id=${previewData.files[0].id}&sz=w1000`;
-        }
-
         const div = document.createElement("div");
         div.className = "folder";
-        div.style.backgroundImage = `url('${previewImage}')`;
+        div.style.backgroundImage = `url('img/main-photo.jpg')`;
         div.innerHTML = `<span>${folder.name}</span>`;
-
         div.onclick = () => {
           window.location.href = `folder.html?folder=${folder.id}`;
         };
-
         gallery.appendChild(div);
       }
     }
@@ -85,22 +65,27 @@ async function loadFolderContents(folderId) {
           gallery.appendChild(img);
         }
 
-        // ---- ВИДЕО ----
+        // ---- ВИДЕО (iframe) ----
         if (file.mimeType.startsWith("video/")) {
-          const video = document.createElement("video");
-          video.src = `https://drive.google.com/uc?export=preview&id=${file.id}`;
-          video.controls = true;
-          video.muted = true;
-          video.playsInline = true;
+          const videoPreview = document.createElement("div");
+          videoPreview.className = "video-preview";
+          videoPreview.style.backgroundImage =
+            `url('https://drive.google.com/thumbnail?id=${file.id}&sz=w1000')`;
 
-          video.onclick = () => {
+          videoPreview.innerHTML = `<span class="play-icon">▶</span>`;
+
+          videoPreview.onclick = () => {
             lightbox.innerHTML = `
-              <video src="https://drive.google.com/uc?export=preview&id=${file.id}" controls autoplay></video>
+              <iframe 
+                src="https://drive.google.com/file/d/${file.id}/preview"
+                allow="autoplay"
+                allowfullscreen>
+              </iframe>
             `;
             lightbox.style.display = "flex";
           };
 
-          gallery.appendChild(video);
+          gallery.appendChild(videoPreview);
         }
       });
     }
@@ -112,24 +97,14 @@ async function loadFolderContents(folderId) {
       gallery.innerHTML = "<p style='text-align:center;color:#777;'>Папка пуста</p>";
     }
 
-    backButton.style.display = folderHistory.length > 1 ? "block" : "none";
-
   } catch (err) {
     gallery.innerHTML = `<p style="color:red;text-align:center;">Ошибка: ${err.message}</p>`;
   }
 }
 
-// ================= КНОПКА НАЗАД =================
-backButton.addEventListener("click", () => {
-  if (folderHistory.length > 1) {
-    folderHistory.pop();
-    loadFolderContents(folderHistory[folderHistory.length - 1]);
-  }
-});
-
 // ================= ЛАЙТБОКС =================
 lightbox.addEventListener("click", (e) => {
-  if (e.target.tagName !== "IMG" && e.target.tagName !== "VIDEO") {
+  if (e.target.tagName !== "IMG" && e.target.tagName !== "IFRAME") {
     lightbox.style.display = "none";
     lightbox.innerHTML = "";
   }
@@ -137,10 +112,3 @@ lightbox.addEventListener("click", (e) => {
 
 // ================= СТАРТ =================
 loadFolderContents(rootFolderId);
-
-// ================= АВТООБНОВЛЕНИЕ =================
-setInterval(() => {
-  if (folderHistory.length === 1) {
-    loadFolderContents(rootFolderId);
-  }
-}, 30000);

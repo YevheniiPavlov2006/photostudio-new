@@ -6,7 +6,7 @@ const lightbox = document.getElementById("lightbox");
 const params = new URLSearchParams(window.location.search);
 const folderId = params.get("folder");
 
-// ================= ЗАГРУЗКА ФОТО + ВИДЕО =================
+// ================= ЗАГРУЗКА ФАЙЛОВ =================
 async function loadMedia(folderId) {
   const query = encodeURIComponent(
     `'${folderId}' in parents and (mimeType contains 'image/' or mimeType contains 'video/') and trashed=false`
@@ -44,22 +44,27 @@ async function loadMedia(folderId) {
         gallery.appendChild(img);
       }
 
-      // ---- ВИДЕО ----
+      // ---- ВИДЕО (iframe) ----
       if (file.mimeType.startsWith("video/")) {
-        const video = document.createElement("video");
-        video.src = `https://drive.google.com/uc?export=preview&id=${file.id}`;
-        video.controls = true;
-        video.muted = true;
-        video.playsInline = true;
+        const videoPreview = document.createElement("div");
+        videoPreview.className = "video-preview";
+        videoPreview.style.backgroundImage =
+          `url('https://drive.google.com/thumbnail?id=${file.id}&sz=w1000')`;
 
-        video.onclick = () => {
+        videoPreview.innerHTML = `<span class="play-icon">▶</span>`;
+
+        videoPreview.onclick = () => {
           lightbox.innerHTML = `
-            <video src="https://drive.google.com/uc?export=preview&id=${file.id}" controls autoplay></video>
+            <iframe 
+              src="https://drive.google.com/file/d/${file.id}/preview"
+              allow="autoplay"
+              allowfullscreen>
+            </iframe>
           `;
           lightbox.style.display = "flex";
         };
 
-        gallery.appendChild(video);
+        gallery.appendChild(videoPreview);
       }
     });
 
@@ -70,7 +75,7 @@ async function loadMedia(folderId) {
 
 // ================= ЛАЙТБОКС =================
 lightbox.addEventListener("click", (e) => {
-  if (e.target.tagName !== "IMG" && e.target.tagName !== "VIDEO") {
+  if (e.target.tagName !== "IMG" && e.target.tagName !== "IFRAME") {
     lightbox.style.display = "none";
     lightbox.innerHTML = "";
   }

@@ -10,10 +10,12 @@ async function loadFolderContents(folderId) {
   gallery.innerHTML = "<p style='text-align:center;color:#777;'>Загрузка...</p>";
 
   try {
+    // ---------- ПАПКИ ----------
     const folderQuery = encodeURIComponent(
       `'${folderId}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`
     );
 
+    // ---------- ФОТО + ВИДЕО ----------
     const mediaQuery = encodeURIComponent(
       `'${folderId}' in parents and (mimeType contains 'image/' or mimeType contains 'video/') and trashed=false`
     );
@@ -31,25 +33,42 @@ async function loadFolderContents(folderId) {
 
     gallery.innerHTML = "";
 
-    // ================= ПАПКИ =================
+    // ================= ПАПКИ С ОБЛОЖКОЙ =================
     if (folderData.files?.length) {
       for (const folder of folderData.files) {
+
+        // --- ищем первую фотографию в папке ---
+        const previewQuery = encodeURIComponent(
+          `'${folder.id}' in parents and mimeType contains 'image/' and trashed=false`
+        );
+
+        const previewUrl = `https://www.googleapis.com/drive/v3/files?key=${apiKey}&q=${previewQuery}&fields=files(id)&pageSize=1`;
+        const previewRes = await fetch(previewUrl);
+        const previewData = await previewRes.json();
+
+        let previewImage = "img/main-photo.jpg"; // fallback
+        if (previewData.files?.length) {
+          previewImage = `https://drive.google.com/thumbnail?id=${previewData.files[0].id}&sz=w1000`;
+        }
+
         const div = document.createElement("div");
         div.className = "folder";
-        div.style.backgroundImage = `url('img/main-photo.jpg')`;
+        div.style.backgroundImage = `url('${previewImage}')`;
         div.innerHTML = `<span>${folder.name}</span>`;
+
         div.onclick = () => {
           window.location.href = `folder.html?folder=${folder.id}`;
         };
+
         gallery.appendChild(div);
       }
     }
 
-    // ================= ФОТО + ВИДЕО =================
+    // ================= ФОТО + ВИДЕО В КОРНЕ =================
     if (mediaData.files?.length) {
       mediaData.files.forEach(file => {
 
-        // ---- ФОТО ----
+        // ---------- ФОТО ----------
         if (file.mimeType.startsWith("image/")) {
           const img = document.createElement("img");
           const src = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`;
@@ -65,7 +84,7 @@ async function loadFolderContents(folderId) {
           gallery.appendChild(img);
         }
 
-        // ---- ВИДЕО (iframe) ----
+        // ---------- ВИДЕО (iframe) ----------
         if (file.mimeType.startsWith("video/")) {
           const videoPreview = document.createElement("div");
           videoPreview.className = "video-preview";
@@ -76,7 +95,7 @@ async function loadFolderContents(folderId) {
 
           videoPreview.onclick = () => {
             lightbox.innerHTML = `
-              <iframe 
+              <iframe
                 src="https://drive.google.com/file/d/${file.id}/preview"
                 allow="autoplay"
                 allowfullscreen>
